@@ -1,5 +1,6 @@
 #!/bin/bash
 # Pass if the student created iwashere on labserver AND iwasheretoo on controlplane.
-# Uses root's SSH key (set up by background.sh) — no password needed.
-ssh -o StrictHostKeyChecking=no student@labserver 'test -f /home/student/iwashere' && \
+# Uses a dedicated verify key (not root's id_rsa) so students still get a password prompt.
+ssh -o StrictHostKeyChecking=no -i /root/.ssh/verify_key student@labserver \
+  'test -f /home/student/iwashere' && \
   test -f /root/iwasheretoo
