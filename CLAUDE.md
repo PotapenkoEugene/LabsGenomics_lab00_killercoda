@@ -140,6 +140,21 @@ Place under `assets/` inside the scenario dir. Reference as `./assets/foo.png` i
 
 ---
 
+## Story / naming convention
+
+Every exercise simulates the same scenario: student is on their home computer connecting to a lab server.
+
+| Killercoda host | Story name | Role |
+|----------------|------------|------|
+| `controlplane` | `mypc` | student's home computer (primary terminal) |
+| `node01` | `labserver` | the genomics server students SSH into |
+
+Hostnames are set via `hostnamectl` in `background.sh`. `labserver` is added to `/etc/hosts`
+on `mypc` so `ssh student@labserver` resolves correctly.
+
+Every exercise should begin with the student running `ssh student@labserver` from `mypc`.
+The actual work happens on `labserver`.
+
 ## Authoring conventions for this repo
 
 - One scenario per subdir (`lab00-welcome/`, `lab00-navigate/`, …).

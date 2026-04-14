@@ -7,7 +7,7 @@ Two commands that tell you where you stand on any machine:
 | `whoami` | your username |
 | `pwd` | your current directory |
 
-## Part A — on this machine
+## Part A — on mypc (your home computer)
 
 ```bash
 whoami
@@ -17,20 +17,18 @@ whoami
 pwd
 ```
 
-You are **root**, home directory is **/root**.
+## Part B — connect to the server
 
-## Part B — SSH to a second machine
-
-Connect to `node01` as user `student` (password: `student`):
+SSH into `labserver` as user `student` (password: `student`):
 
 ```bash
-ssh student@node01
+ssh student@labserver
 ```
 
 > **Tip:** Nothing appears as you type the password — that's normal.
 > On real servers, passwords are often replaced by SSH keys — but that's a separate topic.
 
-## Part C — same commands, different machine
+## Part C — same commands, on the server
 
 ```bash
 whoami
@@ -40,13 +38,13 @@ whoami
 pwd
 ```
 
-Notice: username is now **student**, home directory is **/home/student**, and the prompt shows **node01**.
+Notice: username is now **student**, home directory is **/home/student**, and the prompt shows **labserver**.
 
 ## Part D — mark your visit and return
 
 `touch` creates an empty file. `ls` lists files in the current directory.
 
-Create a file on `node01`, confirm it exists, then return:
+Create a file on `labserver`, confirm it exists, then return to `mypc`:
 
 ```bash
 touch iwashere
@@ -54,7 +52,7 @@ ls
 exit
 ```
 
-Back on `controlplane`, do the same:
+Back on `mypc`, do the same:
 
 ```bash
 touch iwasheretoo

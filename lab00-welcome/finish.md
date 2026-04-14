@@ -14,8 +14,8 @@ These details matter. A wrong server or a wrong user is one of the most common c
 |---------|---------|
 | `whoami` | Print your username |
 | `pwd` | Print your current directory |
-| `ssh student@node01` | Open a remote shell on another machine |
-| `touch iwasthere` | Create an empty file (mark your presence) |
+| `ssh student@labserver` | Open a remote shell on another machine |
+| `touch iwashere` | Create an empty file |
 | `exit` | Close the remote shell and return to the previous machine |
 
 ## Next
