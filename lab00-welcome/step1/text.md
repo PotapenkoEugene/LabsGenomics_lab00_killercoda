@@ -7,7 +7,7 @@ Two commands that tell you where you stand on any machine:
 | `whoami` | your username |
 | `pwd` | your current directory |
 
-## Part A — on mypc (your home computer)
+## Part A — on controlplane (your starting machine)
 
 ```bash
 whoami
@@ -44,7 +44,7 @@ Notice: username is now **student**, home directory is **/home/student**, and th
 
 `touch` creates an empty file. `ls` lists files in the current directory.
 
-Create a file on `labserver`, confirm it exists, then return to `mypc`:
+Create a file on `labserver`, confirm it exists, then return to `controlplane`:
 
 ```bash
 touch iwashere
@@ -52,7 +52,7 @@ ls
 exit
 ```
 
-Back on `mypc`, do the same:
+Back on `controlplane`, do the same:
 
 ```bash
 touch iwasheretoo

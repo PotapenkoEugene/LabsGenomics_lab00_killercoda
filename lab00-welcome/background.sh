@@ -9,9 +9,6 @@ until ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 node01 'true' 2>/dev/n
   sleep 3
 done
 
-# Rename this machine to mypc
-hostnamectl set-hostname mypc
-
 # Rename node01 to labserver + create student user with password auth
 ssh -o StrictHostKeyChecking=no node01 '
   hostnamectl set-hostname labserver
