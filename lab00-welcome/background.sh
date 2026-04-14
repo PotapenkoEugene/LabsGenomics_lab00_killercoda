@@ -16,6 +16,17 @@ ssh -o StrictHostKeyChecking=no node01 '
   sed -i "s/^#*PasswordAuthentication.*/PasswordAuthentication yes/" /etc/ssh/sshd_config
 '
 
+# Give root@controlplane key-based access to student@node01 (needed for verify.sh)
+ssh -o StrictHostKeyChecking=no node01 '
+  mkdir -p /home/student/.ssh
+  chmod 700 /home/student/.ssh
+  chown student:student /home/student/.ssh
+'
+cat /root/.ssh/id_rsa.pub | ssh -o StrictHostKeyChecking=no node01 \
+  'cat >> /home/student/.ssh/authorized_keys
+   chown student:student /home/student/.ssh/authorized_keys
+   chmod 600 /home/student/.ssh/authorized_keys'
+
 # Restart sshd in a separate call — it kills the connection, so use || true
 ssh -o StrictHostKeyChecking=no node01 'systemctl restart sshd' || true
 sleep 2

@@ -1,4 +1,5 @@
 #!/bin/bash
-# Pass if the student created iwashere on node01 AND iwasheretoo on controlplane.
-ssh -o StrictHostKeyChecking=no student@node01 'test -f /home/student/iwashere' && \
+# Pass if the student created iwashere on labserver AND iwasheretoo on controlplane.
+# Uses root's SSH key (set up by background.sh) — no password needed.
+ssh -o StrictHostKeyChecking=no student@labserver 'test -f /home/student/iwashere' && \
   test -f /root/iwasheretoo
