@@ -1,0 +1,23 @@
+{
+  "title": "Lab 00 — Welcome to the Server",
+  "description": "Genomics is done on servers, not laptops. Learn how to connect, orient yourself, and hop between machines.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Who am I? Where am I? (on two different machines)",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}
