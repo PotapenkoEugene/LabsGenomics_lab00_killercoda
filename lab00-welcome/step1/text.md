@@ -9,14 +9,6 @@ Two commands that tell you where you stand on any machine:
 
 ## Part A — on mypc (your home computer)
 
-First, reload your shell to apply the environment settings:
-
-```bash
-exec bash
-```
-
-Your prompt now shows **gene_wizard@mypc**. Run the orientation commands:
-
 ```bash
 whoami
 ```

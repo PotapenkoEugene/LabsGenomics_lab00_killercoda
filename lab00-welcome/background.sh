@@ -22,14 +22,5 @@ ssh -o StrictHostKeyChecking=no node01 '
 '
 
 # Make "labserver" resolvable on mypc
-# Use ssh to get node01's IP directly — more reliable than getent before DNS is ready
 NODE01_IP=$(ssh -o StrictHostKeyChecking=no node01 'hostname -I' | awk '{print $1}')
 echo "$NODE01_IP labserver" >> /etc/hosts
-
-# Write custom prompt to system-wide profile (read by all new bash sessions)
-cat > /etc/profile.d/99-prompt.sh << 'EOF'
-export PS1='\[\033[01;32m\]gene_wizard@mypc\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-EOF
-
-# Signal that setup is complete
-touch /tmp/setup_done

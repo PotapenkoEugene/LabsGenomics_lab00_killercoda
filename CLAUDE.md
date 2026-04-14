@@ -146,7 +146,7 @@ Every exercise simulates the same scenario: student is on their home computer co
 
 | Killercoda host | Story name | Prompt shown | Role |
 |----------------|------------|--------------|------|
-| `controlplane` | `mypc` | `gene_wizard@mypc` | student's home computer (primary terminal) |
+| `controlplane` | `mypc` | `root@mypc` | student's home computer (primary terminal) |
 | `node01` | `labserver` | `student@labserver` | the genomics server students SSH into |
 
 Hostnames are set via `hostnamectl` in `background.sh`. `labserver` is added to `/etc/hosts`
