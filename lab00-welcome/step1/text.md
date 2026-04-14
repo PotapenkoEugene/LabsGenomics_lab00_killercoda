@@ -9,6 +9,14 @@ Two commands that tell you where you stand on any machine:
 
 ## Part A — on mypc (your home computer)
 
+First, reload your shell to apply the environment settings:
+
+```bash
+exec bash
+```
+
+Your prompt now shows **gene_wizard@mypc**. Run the orientation commands:
+
 ```bash
 whoami
 ```
@@ -16,8 +24,6 @@ whoami
 ```bash
 pwd
 ```
-
-Your prompt shows **gene_wizard@mypc** — that's you, on your own machine.
 
 ## Part B — connect to the server
 
