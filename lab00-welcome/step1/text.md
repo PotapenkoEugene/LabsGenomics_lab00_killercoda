@@ -17,6 +17,8 @@ whoami
 pwd
 ```
 
+Your prompt shows **gene_wizard@mypc** — that's you, on your own machine.
+
 ## Part B — connect to the server
 
 SSH into `labserver` as user `student` (password: `student`):

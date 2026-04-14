@@ -144,10 +144,10 @@ Place under `assets/` inside the scenario dir. Reference as `./assets/foo.png` i
 
 Every exercise simulates the same scenario: student is on their home computer connecting to a lab server.
 
-| Killercoda host | Story name | Role |
-|----------------|------------|------|
-| `controlplane` | `mypc` | student's home computer (primary terminal) |
-| `node01` | `labserver` | the genomics server students SSH into |
+| Killercoda host | Story name | Prompt shown | Role |
+|----------------|------------|--------------|------|
+| `controlplane` | `mypc` | `gene_wizard@mypc` | student's home computer (primary terminal) |
+| `node01` | `labserver` | `student@labserver` | the genomics server students SSH into |
 
 Hostnames are set via `hostnamectl` in `background.sh`. `labserver` is added to `/etc/hosts`
 on `mypc` so `ssh student@labserver` resolves correctly.

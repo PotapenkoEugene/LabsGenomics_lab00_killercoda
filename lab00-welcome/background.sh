@@ -24,3 +24,6 @@ ssh -o StrictHostKeyChecking=no node01 '
 # Make "labserver" resolvable on mypc
 NODE01_IP=$(getent hosts node01 | awk '{print $1}')
 echo "$NODE01_IP labserver" >> /etc/hosts
+
+# Customize the prompt on mypc to look like a personal computer
+echo "export PS1='\[\033[01;32m\]gene_wizard@mypc\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /root/.bashrc
