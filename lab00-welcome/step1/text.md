@@ -44,9 +44,21 @@ Notice: username is now **student**, home directory is **/home/student**, and th
 
 ## Part D — mark your visit and return
 
+`touch` creates an empty file. `ls` lists files in the current directory.
+
+Create a file on `node01`, confirm it exists, then return:
+
 ```bash
-touch iwasthere
+touch iwashere
+ls
 exit
+```
+
+Back on `controlplane`, do the same:
+
+```bash
+touch iwasheretoo
+ls
 ```
 
 Click **Check** to verify.
