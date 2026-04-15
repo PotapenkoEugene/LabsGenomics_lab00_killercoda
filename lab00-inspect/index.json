@@ -1,0 +1,13 @@
+{
+  "title": "Lab 00 — Looking Inside Files (cat, head, tail, wc, file, zcat)",
+  "description": "Inspect large plain-text and gzipped genomics files safely without flooding your terminal.",
+  "details": {
+    "intro":  { "text": "intro.md", "background": "background.sh" },
+    "steps": [
+      { "title": "Inspect a big text file safely", "text": "step1/text.md", "verify": "step1/verify.sh" },
+      { "title": "Read compressed files with zcat", "text": "step2/text.md", "verify": "step2/verify.sh" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes-kubeadm-2nodes" }
+}
