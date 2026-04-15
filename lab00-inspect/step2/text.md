@@ -1,15 +1,5 @@
 # Read Compressed Files with zcat
 
-Connect to the server:
-
-```bash
-ssh student@labserver
-```
-
-(password: `student`)
-
----
-
 ## Part A — Download the genome FASTA (gzipped)
 
 Move into your working directory:
