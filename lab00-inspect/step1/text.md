@@ -85,10 +85,6 @@ tail -3 GCF_000005845.2_ASM584v2_genomic.gff
 
 ## Part E — Task
 
-The genome build name is in the header you just read. Create an empty file whose name is that build identifier:
-
-```bash
-touch ~/lab00/inspect/ASM584v2.txt
-```
+The genome build name is in the header you just read — look for the `#!genome-build` line. Create an empty file in `~/lab00/inspect/` whose name is that build identifier (with a `.txt` extension).
 
 Click **Check** to verify.
