@@ -1,6 +1,6 @@
 # Tab Completion — Save Your Fingers
 
-Typing long paths by hand is slow and error-prone. **Tab completion** is the shell's built-in shortcut: start typing, press `Tab`, and the shell fills in the rest automatically.
+Typing full paths by hand is slow and error-prone. **Tab completion** is the shell's built-in shortcut: start typing, press `Tab`, and the shell fills in the rest.
 
 Connect to the server:
 
@@ -12,57 +12,73 @@ ssh student@labserver
 
 ---
 
-## Part A — See what Tab does when there are multiple options
+## Part A — Tab with a unique match
 
-The shared data directory has several folders that start with the same prefix. Type the beginning and press `Tab`:
+When only one option matches what you have typed, Tab completes it instantly.
 
-```bash
-cd /shared/lab00/sam
-```
-
-Press `Tab` — the shell cannot complete the name yet because there are multiple matches. Press `Tab` **a second time** to see all the options.
-
-You should see something like:
-
-```
-samples_2024/   samples_2025/   samples_archive/
-```
-
-Now you know which folder to go into. Continue typing to pick `samples_2024`:
+The shared data directory has a folder with a long name. Type the first few letters and press `Tab`:
 
 ```bash
-cd /shared/lab00/samples_2024
+cd /shared/lab00/the_
 ```
 
----
+The shell should complete the directory name immediately — you don't need to type the rest.
 
-## Part B — Tab through the rest of the path
-
-Inside `samples_2024` there is one subdirectory. Type a few letters and press `Tab` — the shell should complete it with no ambiguity:
-
-```bash
-cd raw_
-```
-
-Press `Tab`. Then go one level deeper:
-
-```bash
-cd batch_
-```
-
-Press `Tab` again.
-
-Confirm you arrived at the right place:
+Confirm where you are:
 
 ```bash
 pwd
 ```
 
-The path should end in `batch_01_results`.
+---
+
+## Part B — Tab when there are multiple options
+
+Now things get interesting. Inside this directory there are several folders that all start with the same word.
+
+Type the beginning and press `Tab`:
+
+```bash
+cd almost_
+```
+
+Nothing happens — the shell cannot decide for you. Press `Tab` **a second time** to list all matching options:
+
+```
+almost_exactly_here/   almost_here/   almost_there/
+```
+
+Now you know what is here. Type one more letter to pick `almost_exactly_here/` and press `Tab` again:
+
+```bash
+cd almost_e
+```
+
+The shell completes it unambiguously.
 
 ---
 
-## Part C — Mark your visit
+## Part C — One more level
+
+Inside `almost_exactly_here/` there is one more directory. Use Tab to complete it:
+
+```bash
+cd and_
+```
+
+Press `Tab`.
+
+Confirm your final location:
+
+```bash
+pwd
+```
+
+The path should end in `and_right_here`.
+
+---
+
+## Part D — Mark your visit
 
 ```bash
 touch iwashere

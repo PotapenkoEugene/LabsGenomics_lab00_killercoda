@@ -1,6 +1,6 @@
-# ls Flags — Find a Needle in a Thousand Files
+# ls Flags — Find the Biggest File
 
-`ls` alone just prints names in alphabetical order. With the right flags it answers a real question: *which file is the biggest?*
+`ls` alone just prints names in alphabetical order — it tells you nothing about size. The right flags turn it into a powerful tool.
 
 Connect to the server:
 
@@ -14,19 +14,25 @@ ssh student@labserver
 
 ## Part A — Navigate back to the data directory
 
-You already know the path. Use Tab to get there:
+You know the path. Use Tab at every level:
 
 ```bash
-cd /shared/lab00/samples_2024/raw_
+cd /shared/lab00/the_
 ```
 
-Press `Tab`, then:
+Tab → then:
 
 ```bash
-cd batch_
+cd almost_e
 ```
 
-Press `Tab`. Confirm with `pwd`.
+Tab → then:
+
+```bash
+cd and_
+```
+
+Tab. Confirm with `pwd`.
 
 ---
 
@@ -36,7 +42,7 @@ Press `Tab`. Confirm with `pwd`.
 ls
 ```
 
-There are a thousand files. You cannot spot the biggest one by scrolling.
+A thousand files, all named alike. You cannot tell which is biggest by looking.
 
 ---
 
@@ -52,23 +58,25 @@ There are a thousand files. You cannot spot the biggest one by scrolling.
 ls -lhS | head
 ```
 
-> **Tip:** `| head` shows only the first 10 lines of output — the biggest files appear at the top.
+> **Tip:** `| head` shows only the first 10 lines — the biggest file is at the top.
 
-The **first file** listed is the largest. Note its name.
+The **first file** in the output is the largest. Note its full name.
 
 ---
 
 ## Part D — Copy it to your home directory
 
-`cp SOURCE DEST` copies a file. `~/` means your home directory.
+`cp SOURCE DEST` copies a file. `~/` is your home directory.
 
 ```bash
-cp the_giant_file_you_are_looking_for.dat ~/
+cp amithebiggest_XXXX.dat ~/
 ```
 
-> **Tip:** Tab-complete the filename — you already know how.
+Replace `amithebiggest_XXXX.dat` with the actual name you found in the previous step.
 
-Verify the copy arrived:
+> **Tip:** Tab-complete the filename — type `ami` and press Tab.
+
+Verify it arrived:
 
 ```bash
 ls -lh ~/

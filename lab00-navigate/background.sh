@@ -41,34 +41,36 @@ NODE01_IP=$(ssh -o StrictHostKeyChecking=no node01 'hostname -I' | awk '{print $
 echo "$NODE01_IP labserver" >> /etc/hosts
 
 # ── Part 2: seed navigation data on labserver ─────────────────────────────────
-# Pipe the entire setup script via heredoc — avoids all variable-scoping issues
-# between the local shell and the remote shell.
+# Heredoc with single-quoted delimiter — body goes to node01 verbatim,
+# variables and loops evaluated by bash on the remote host.
 
 ssh -o StrictHostKeyChecking=no node01 bash << 'ENDSSH'
 set -e
 
-DEEP="/shared/lab00/samples_2024/raw_reads/batch_01_results"
+ENTRY="/shared/lab00/the_place_where_files_go"
+TARGET="$ENTRY/almost_exactly_here/and_right_here"
 
-# ── Three dirs with a common prefix — Tab shows all three options at first level
-mkdir -p "$DEEP"
-mkdir -p /shared/lab00/samples_2025
-mkdir -p /shared/lab00/samples_archive
+# ── Three dirs sharing the "almost_" prefix — Tab shows all three on double-Tab
+mkdir -p "$TARGET"
+mkdir -p "$ENTRY/almost_here"
+mkdir -p "$ENTRY/almost_there"
 
-# Decoy content so the other dirs exist but are clearly not the target
-echo "No data collected yet." > /shared/lab00/samples_2025/README.txt
-echo "Archived. See samples_2024 for current data." > /shared/lab00/samples_archive/README.txt
+# Decoy content so the other dirs look occupied
+echo "Nothing useful here." > "$ENTRY/almost_here/readme.txt"
+echo "Nope, keep looking."  > "$ENTRY/almost_there/readme.txt"
 
-# ── Haystack: 1000 files with varied sizes (1–50 KB) — impossible to spot by eye
+# ── Haystack: 1000 files all named amithebiggest_N with random small sizes (1–50 KB)
 for i in $(seq -w 1 1000); do
   size=$(( (RANDOM % 50) + 1 ))
-  dd if=/dev/urandom bs=1024 count=$size of="$DEEP/file_${i}.dat" 2>/dev/null
+  dd if=/dev/urandom bs=1024 count=$size of="$TARGET/amithebiggest_${i}.dat" 2>/dev/null
 done
 
-# ── Giant file: 5 MB — clearly wins ls -lhS
-dd if=/dev/urandom bs=1M count=5 \
-   of="$DEEP/the_giant_file_you_are_looking_for.dat" 2>/dev/null
+# ── The actual giant: 5 MB, placed at a random position — only ls -lhS reveals it
+GIANT=$(( (RANDOM % 1000) + 1 ))
+printf -v GIANT_PADDED "%04d" "$GIANT"
+dd if=/dev/urandom bs=1M count=5 of="$TARGET/amithebiggest_${GIANT_PADDED}.dat" 2>/dev/null
 
-# ── World-readable throughout; deepest dir is also writable so student can touch
+# ── Permissions: readable throughout; deepest dir writable so student can touch
 chmod -R a+rX /shared/lab00
-chmod a+rwx "$DEEP"
+chmod a+rwx "$TARGET"
 ENDSSH
