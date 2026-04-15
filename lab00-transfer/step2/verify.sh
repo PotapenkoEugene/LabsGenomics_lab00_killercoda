@@ -1,2 +1,2 @@
 #!/bin/bash
-test -f /root/ecoli_genome.fna.gz
+test -f /root/ecoli_stats.txt

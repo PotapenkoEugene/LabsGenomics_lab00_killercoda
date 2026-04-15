@@ -50,7 +50,7 @@ wget -O ecoli_stats.txt https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845
 `-O` sets the output filename regardless of what the URL says. Confirm both files are in place:
 
 ```bash
-ls -lh ~/lab00/ecoli/
+ls -lh
 ```
 
 Click **Check** to verify.
