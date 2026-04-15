@@ -18,11 +18,13 @@ You'll download two files from NCBI. First, make a directory to keep them organi
 mkdir -p ~/lab00/ecoli
 ```
 
+> **Tip — the `-p` flag.** Without `-p`, `mkdir` fails if any parent directory in the path doesn't exist yet. With `-p`, it creates every missing directory in one go — and stays silent if the directory already exists.
+
 ---
 
 ## Part B — Download into a directory
 
-Move into the directory and download the assembly statistics file for *E. coli* K-12:
+Move into the directory and download the genome assembly statistics file for *E. coli* K-12:
 
 ```bash
 cd ~/lab00/ecoli
@@ -39,20 +41,13 @@ ls -lh
 
 ## Part C — Control the output filename with `-O`
 
-NCBI filenames are long and machine-generated. Download the genome FASTA from the same entry:
+NCBI filenames are long and machine-generated. Download the same assembly statistics file again, but this time give it a clean name using `-O`:
 
 ```bash
-wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
+wget -O ecoli_stats.txt https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_assembly_stats.txt
 ```
 
-The saved filename is identical to the URL basename — not great. Delete it and re-download with a clean name using `-O`:
-
-```bash
-rm GCF_000005845.2_ASM584v2_genomic.fna.gz
-wget -O ecoli_genome.fna.gz https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
-```
-
-Confirm both files are in place:
+`-O` sets the output filename regardless of what the URL says. Confirm both files are in place:
 
 ```bash
 ls -lh ~/lab00/ecoli/
