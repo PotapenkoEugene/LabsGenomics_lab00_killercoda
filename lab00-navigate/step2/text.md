@@ -43,16 +43,16 @@ The **first file** in the output is the largest. Note its full name — you will
 ls -lt
 ```
 
-The **first file** in the output was created or modified most recently. Note its name.
+The top of the list will be `iwashere` — the file **you** created in the previous step. Your own files always appear newest. Scroll past it to find the newest file that was already on the server before you arrived: `freshly_arrived.dat`.
 
 ---
 
 ## Part D — Build your own workspace
 
-`~/` is your home directory. `mkdir -p` creates a directory tree in one command.
+`~/` is your home directory. `mkdir` creates a new directory.
 
 ```bash
-mkdir -p ~/lab00
+mkdir ~/lab00
 ```
 
 ---
