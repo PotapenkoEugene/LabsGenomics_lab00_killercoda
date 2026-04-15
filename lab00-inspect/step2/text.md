@@ -2,21 +2,16 @@
 
 ## Part A — Create a small compressed file
 
-You still have the annotation file from the previous step. Make a tiny sample from it:
+You still have the annotation file from the previous step. Make a tiny sample from it and compress it:
 
 ```bash
 cd ~/lab00/inspect
 head -20 GCF_000005845.2_ASM584v2_genomic.gff > sample.gff
-```
-
-Compress it with `gzip -k` (`-k` keeps the original):
-
-```bash
 gzip -k sample.gff
 ls -lh sample.gff sample.gff.gz
 ```
 
-You now have both a plain-text version and a compressed version of the same 20 lines.
+(`-k` keeps the original alongside the compressed copy.)
 
 ---
 
@@ -28,7 +23,7 @@ Try it:
 cat sample.gff.gz
 ```
 
-Your terminal just filled with binary garbage. This is what gzip-compressed data looks like raw — the file is intact, but `cat` has no idea it is compressed and prints the bytes as-is.
+Binary garbage — the file is intact, but `cat` has no idea it is compressed and dumps raw bytes to your terminal.
 
 > **Tip — if your terminal is garbled**, type `reset` and press Enter to restore it.
 
@@ -40,7 +35,7 @@ Your terminal just filled with binary garbage. This is what gzip-compressed data
 file sample.gff.gz
 ```
 
-Output: `gzip compressed data`. This is the check you should always run before opening an unknown file — `file` would have saved you from the garbled output above.
+Output: `gzip compressed data`. Running `file` before opening an unknown file would have saved you from Part B.
 
 > **Tip — `file` examines content, not the filename.** Even if someone renames `genome.gz` to `genome.fasta`, `file` still reports the truth.
 
@@ -48,13 +43,13 @@ Output: `gzip compressed data`. This is the check you should always run before o
 
 ## Part D — Read it properly with zcat
 
-`zcat` decompresses on the fly and streams clean text to the terminal — nothing is written to disk:
+`zcat` decompresses on the fly and streams clean text — nothing written to disk:
 
 ```bash
 zcat sample.gff.gz
 ```
 
-All 20 lines, readable. For larger files always pipe to `head` to avoid flooding:
+All 20 lines, readable. For larger files always pipe to `head`:
 
 ```bash
 zcat sample.gff.gz | head -5
@@ -62,9 +57,22 @@ zcat sample.gff.gz | head -5
 
 ---
 
-## Part E — Download a real genome and apply the same workflow
+## Part E — Compression ratio: same file, both forms
 
-Now try it on a real genomics file — the full *E. coli* K-12 genome sequence:
+Now compress the full annotation and compare both versions:
+
+```bash
+gzip -k GCF_000005845.2_ASM584v2_genomic.gff
+ls -lh GCF_000005845.2_ASM584v2_genomic.gff GCF_000005845.2_ASM584v2_genomic.gff.gz
+```
+
+Same data — the `.gz` is 3–5× smaller. Genomics files are highly repetitive and compress well. Always store and transfer them as `.gz`.
+
+---
+
+## Part F — Apply the same workflow to the genome sequence
+
+Download the full *E. coli* K-12 genome in FASTA format (gzipped):
 
 ```bash
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
@@ -77,24 +85,17 @@ file GCF_000005845.2_ASM584v2_genomic.fna.gz
 zcat GCF_000005845.2_ASM584v2_genomic.fna.gz | head -3
 ```
 
-The `>` line is the FASTA sequence header — chromosome name and accession. The lines below it are the DNA sequence.
+The line starting with `>` is the FASTA sequence header — chromosome name, accession, and description.
 
 ---
 
-## Part F — Compare sizes
+## Part G — Task
+
+Extract just that header line and save it to a file:
 
 ```bash
-ls -lh
-```
-
-The `.fna.gz` is around 1.4 MB. The uncompressed `.gff` from Step 1 is around 5 MB. Genomics files compress 3–10× — always store and transfer data as `.gz`.
-
----
-
-## Part G — Mark your progress
-
-```bash
-touch ~/lab00/inspect/done_zcat.txt
+zcat GCF_000005845.2_ASM584v2_genomic.fna.gz | head -1 > fasta_header.txt
+cat fasta_header.txt
 ```
 
 Click **Check** to verify.

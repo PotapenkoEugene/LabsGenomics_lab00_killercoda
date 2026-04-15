@@ -31,8 +31,6 @@ Unpack it to get a plain-text file:
 gunzip GCF_000005845.2_ASM584v2_genomic.gff.gz
 ```
 
-Confirm it is there:
-
 ```bash
 ls -lh
 ```
@@ -45,22 +43,27 @@ ls -lh
 file GCF_000005845.2_ASM584v2_genomic.gff
 ```
 
-Output should say `ASCII text`. Good — it is a text file and safe to read. But how large?
+Output: `ASCII text` — plain text, safe to read. But how many lines does it have?
 
 ---
 
-## Part C — Count lines before you open it
+## Part C — Count lines
 
 ```bash
 wc -l GCF_000005845.2_ASM584v2_genomic.gff
 ```
 
-> **Tip — why count first?**
-> `cat` on a 50,000-line file will scroll for seconds and lock your terminal. `wc -l` tells you the size in milliseconds — then you can decide whether `cat` is safe or not.
+Tens of thousands of lines. Now try opening it anyway:
+
+```bash
+cat GCF_000005845.2_ASM584v2_genomic.gff
+```
+
+Press **Ctrl+C** to stop it. This is what happens when you `cat` a file without checking its size first — the terminal scrolls for seconds and you learn nothing. If your prompt looks garbled, type `reset` and press Enter.
 
 ---
 
-## Part D — Preview safely with head and tail
+## Part D — Preview with head and tail
 
 Look at the first 5 lines:
 
@@ -68,20 +71,24 @@ Look at the first 5 lines:
 head -5 GCF_000005845.2_ASM584v2_genomic.gff
 ```
 
-The `##gff-version 3` header tells you the format. Now look at the last 3 lines:
+The header lines starting with `#!` contain metadata about this file — including the genome build name on the `#!genome-build` line.
+
+Look at the last 3 lines:
 
 ```bash
 tail -3 GCF_000005845.2_ASM584v2_genomic.gff
 ```
 
-> **Tip — `head` and `tail` are your safe default.** When you open an unfamiliar file for the first time, always start with `head -5`. You learn the format in seconds without risk.
+> **Tip — always start with `head -5`.** You learn the file format in seconds, with no risk of flooding your terminal.
 
 ---
 
-## Part E — Mark your progress
+## Part E — Task
+
+The genome build name is in the header you just read. Create an empty file whose name is that build identifier:
 
 ```bash
-touch ~/lab00/inspect/inspected.txt
+touch ~/lab00/inspect/ASM584v2.txt
 ```
 
 Click **Check** to verify.
