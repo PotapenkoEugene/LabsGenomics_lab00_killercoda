@@ -1,6 +1,6 @@
-# ls Flags — Find the Biggest File
+# Sort, Make Room, Copy
 
-`ls` alone just prints names in alphabetical order — it tells you nothing about size. The right flags turn it into a powerful tool.
+`ls` alone just prints names. The right flags let you ask specific questions — like *which file is the biggest?*
 
 Connect to the server:
 
@@ -12,7 +12,7 @@ ssh student@labserver
 
 ---
 
-## Part A — Navigate back to the data directory
+## Part A — Navigate to the data directory
 
 You know the path. Use Tab at every level:
 
@@ -20,19 +20,19 @@ You know the path. Use Tab at every level:
 cd /shared/lab00/the_
 ```
 
-Tab → then:
+Press `Tab`.
 
 ```bash
 cd almost_e
 ```
 
-Tab → then:
+Press `Tab`.
 
 ```bash
 cd and_
 ```
 
-Tab. Confirm with `pwd`.
+Press `Tab`. Confirm with `pwd`.
 
 ---
 
@@ -42,7 +42,7 @@ Tab. Confirm with `pwd`.
 ls
 ```
 
-A thousand files, all named alike. You cannot tell which is biggest by looking.
+A thousand files, all named the same way. You cannot tell which is biggest by looking.
 
 ---
 
@@ -58,28 +58,40 @@ A thousand files, all named alike. You cannot tell which is biggest by looking.
 ls -lhS | head
 ```
 
-> **Tip:** `| head` shows only the first 10 lines — the biggest file is at the top.
+> **Tip:** `| head` shows only the first 10 lines. The biggest file appears at the top.
 
-The **first file** in the output is the largest. Note its full name.
+The **first file** in the output is the largest. Note its full name — you will need it in Part E.
 
 ---
 
-## Part D — Copy it to your home directory
+## Part D — Build your own workspace
 
-`cp SOURCE DEST` copies a file. `~/` is your home directory.
+`~/` means your home directory. `mkdir -p` creates a directory tree in one command, even if parent directories do not exist yet.
 
 ```bash
-cp amithebiggest_XXXX.dat ~/
+mkdir -p ~/lab00
 ```
 
-Replace `amithebiggest_XXXX.dat` with the actual name you found in the previous step.
+This creates `/home/student/lab00/` — your personal space on the server.
 
-> **Tip:** Tab-complete the filename — type `ami` and press Tab.
+---
 
-Verify it arrived:
+## Part E — Copy the giant file into your workspace
+
+`cp SOURCE DEST` copies a file.
 
 ```bash
-ls -lh ~/
+cp amithebiggest_XXXX.dat ~/lab00/
+```
+
+Replace `XXXX` with the number you found in Part C.
+
+> **Tip:** Type `cp ami` and press `Tab` — the shell completes the filename.
+
+Verify the file arrived:
+
+```bash
+ls -lh ~/lab00/
 ```
 
 Click **Check** to verify.

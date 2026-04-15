@@ -1,6 +1,6 @@
 {
   "title": "Lab 00 — Navigate the Server",
-  "description": "The server has thousands of files and deep directory trees. Learn to move around quickly with Tab completion, find files with ls flags, and set up your own workspace.",
+  "description": "The server has thousands of files and deep directory trees. Learn to move around with cd and ls, complete paths with Tab, and find files by size.",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -8,19 +8,14 @@
     },
     "steps": [
       {
-        "title": "Tab completion — save your fingers",
+        "title": "Navigate and complete with Tab",
         "text": "step1/text.md",
         "verify": "step1/verify.sh"
       },
       {
-        "title": "ls flags — find a needle in hundreds of files",
+        "title": "Sort, make room, copy",
         "text": "step2/text.md",
         "verify": "step2/verify.sh"
-      },
-      {
-        "title": "mkdir — build your own workspace",
-        "text": "step3/text.md",
-        "verify": "step3/verify.sh"
       }
     ],
     "finish": {
