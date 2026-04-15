@@ -1,0 +1,33 @@
+{
+  "title": "Lab 00 — Navigate the Server",
+  "description": "The server has thousands of files and deep directory trees. Learn to move around quickly with Tab completion, find files with ls flags, and set up your own workspace.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Tab completion — save your fingers",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      },
+      {
+        "title": "ls flags — find a needle in hundreds of files",
+        "text": "step2/text.md",
+        "verify": "step2/verify.sh"
+      },
+      {
+        "title": "mkdir — build your own workspace",
+        "text": "step3/text.md",
+        "verify": "step3/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}
