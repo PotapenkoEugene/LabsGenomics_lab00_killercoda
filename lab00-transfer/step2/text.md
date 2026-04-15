@@ -1,4 +1,4 @@
-# Download from the server with scp
+# Transfer files with scp
 
 `scp` copies files over SSH. Unlike `wget`, it transfers files **between two machines** — and it always runs on **your local machine**, not on the server.
 
@@ -40,5 +40,31 @@ ls -lh ecoli_stats.txt
 > and configurations. Use a **relative path** (`lab00/ecoli/file` — interpreted
 > from the remote user's home) or an **absolute path**
 > (`/home/student/lab00/ecoli/file`) instead.
+
+---
+
+## Part C — Copy a file to the server
+
+`scp` works in both directions. Upload the file you just downloaded back to `labserver`:
+
+```bash
+scp ecoli_stats.txt student@labserver:lab00/
+```
+
+(password: `student`)
+
+SSH back in to confirm it arrived:
+
+```bash
+ssh student@labserver
+```
+
+(password: `student`)
+
+```bash
+ls -lh ~/lab00/
+```
+
+You should see `ecoli_stats.txt` alongside the `ecoli/` directory.
 
 Click **Check** to verify.
