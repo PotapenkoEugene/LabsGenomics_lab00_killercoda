@@ -1,73 +1,97 @@
 # Read Compressed Files with zcat
 
-## Part A — Download the genome FASTA (gzipped)
+## Part A — Create a small compressed file
 
-Move into your working directory:
+You still have the annotation file from the previous step. Make a tiny sample from it:
 
 ```bash
 cd ~/lab00/inspect
+head -20 GCF_000005845.2_ASM584v2_genomic.gff > sample.gff
 ```
 
-Download the *E. coli* K-12 genome sequence — this time it stays compressed:
+Compress it with `gzip -k` (`-k` keeps the original):
+
+```bash
+gzip -k sample.gff
+ls -lh sample.gff sample.gff.gz
+```
+
+You now have both a plain-text version and a compressed version of the same 20 lines.
+
+---
+
+## Part B — What happens when you cat a .gz file?
+
+Try it:
+
+```bash
+cat sample.gff.gz
+```
+
+Your terminal just filled with binary garbage. This is what gzip-compressed data looks like raw — the file is intact, but `cat` has no idea it is compressed and prints the bytes as-is.
+
+> **Tip — if your terminal is garbled**, type `reset` and press Enter to restore it.
+
+---
+
+## Part C — Identify the file type first
+
+```bash
+file sample.gff.gz
+```
+
+Output: `gzip compressed data`. This is the check you should always run before opening an unknown file — `file` would have saved you from the garbled output above.
+
+> **Tip — `file` examines content, not the filename.** Even if someone renames `genome.gz` to `genome.fasta`, `file` still reports the truth.
+
+---
+
+## Part D — Read it properly with zcat
+
+`zcat` decompresses on the fly and streams clean text to the terminal — nothing is written to disk:
+
+```bash
+zcat sample.gff.gz
+```
+
+All 20 lines, readable. For larger files always pipe to `head` to avoid flooding:
+
+```bash
+zcat sample.gff.gz | head -5
+```
+
+---
+
+## Part E — Download a real genome and apply the same workflow
+
+Now try it on a real genomics file — the full *E. coli* K-12 genome sequence:
 
 ```bash
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
 ```
 
----
-
-## Part B — Identify the file type
+Check the type, then read safely:
 
 ```bash
 file GCF_000005845.2_ASM584v2_genomic.fna.gz
-```
-
-Output: `gzip compressed data` — this is binary. **Do not `cat` it** — it would garble your terminal and print nothing useful.
-
-> **Tip — `file` examines content, not the filename.** Even if someone renames `genome.gz` to `genome.fasta`, `file` still tells you the truth.
-
----
-
-## Part C — Read without unpacking: zcat
-
-`zcat` decompresses on the fly and streams the output — nothing is written to disk.
-
-Read just the first 3 lines:
-
-```bash
 zcat GCF_000005845.2_ASM584v2_genomic.fna.gz | head -3
 ```
 
-You will see a FASTA header line (starting with `>`) followed by the first lines of DNA sequence.
+The `>` line is the FASTA sequence header — chromosome name and accession. The lines below it are the DNA sequence.
 
 ---
 
-## Part D — Compare sizes: compressed vs plain text
-
-You already have the uncompressed annotation from Step 1. Compare:
+## Part F — Compare sizes
 
 ```bash
-ls -lh ~/lab00/inspect/
+ls -lh
 ```
 
-The `.fna.gz` is around 1.4 MB. The uncompressed `.gff` is around 5 MB. Genomics files compress 3–10× — always keep and transfer data as `.gz`.
+The `.fna.gz` is around 1.4 MB. The uncompressed `.gff` from Step 1 is around 5 MB. Genomics files compress 3–10× — always store and transfer data as `.gz`.
 
 ---
 
-## Part E — Compress a file with gzip -k
-
-The `-k` flag compresses the file but **keeps the original**. Try it on the annotation:
-
-```bash
-gzip -k GCF_000005845.2_ASM584v2_genomic.gff
-ls -lh GCF_000005845.2_ASM584v2_genomic.gff GCF_000005845.2_ASM584v2_genomic.gff.gz
-```
-
-Without `-k`, `gzip` removes the original — useful when disk is tight, risky when you still need the plain-text version.
-
----
-
-## Part F — Mark your progress
+## Part G — Mark your progress
 
 ```bash
 touch ~/lab00/inspect/done_zcat.txt
