@@ -1,0 +1,13 @@
+{
+  "title": "Lab 00 — Transferring Files (wget & scp)",
+  "description": "Pull files from the internet with wget; push files from your laptop to the server with scp.",
+  "details": {
+    "intro":  { "text": "intro.md", "background": "background.sh" },
+    "steps": [
+      { "title": "Download with wget", "text": "step1/text.md", "verify": "step1/verify.sh" },
+      { "title": "Upload with scp",    "text": "step2/text.md", "verify": "step2/verify.sh" }
+    ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "kubernetes-kubeadm-2nodes" }
+}
