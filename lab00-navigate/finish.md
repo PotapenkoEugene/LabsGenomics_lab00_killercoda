@@ -11,7 +11,7 @@
 | `Tab` | Complete a filename or path — press twice to see all options |
 | `ls -lh` | Long format with human-readable sizes |
 | `ls -lhS` | Sorted by size — largest first |
-| `\| head` | Show only the first 10 lines of output |
+| `ls -lt` | Sorted by modification time — newest first |
 | `mkdir -p a/b/c` | Create a directory tree in one command |
 | `cp SOURCE DEST` | Copy a file |
 

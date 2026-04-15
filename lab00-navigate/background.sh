@@ -59,16 +59,21 @@ mkdir -p "$ENTRY/almost_there"
 echo "Nothing useful here." > "$ENTRY/almost_here/readme.txt"
 echo "Nope, keep looking."  > "$ENTRY/almost_there/readme.txt"
 
-# ── Haystack: 1000 files all named amithebiggest_N with random small sizes (1–50 KB)
-for i in $(seq -w 1 1000); do
+# ── Haystack: 100 files all named amithebiggest_NNN with random small sizes (1–50 KB)
+# seq -w pads to 3 digits (001…100); printf below must match
+for i in $(seq -w 1 100); do
   size=$(( (RANDOM % 50) + 1 ))
   dd if=/dev/urandom bs=1024 count=$size of="$TARGET/amithebiggest_${i}.dat" 2>/dev/null
 done
 
 # ── The actual giant: 5 MB, placed at a random position — only ls -lhS reveals it
-GIANT=$(( (RANDOM % 1000) + 1 ))
-printf -v GIANT_PADDED "%04d" "$GIANT"
+GIANT=$(( (RANDOM % 100) + 1 ))
+printf -v GIANT_PADDED "%03d" "$GIANT"
 dd if=/dev/urandom bs=1M count=5 of="$TARGET/amithebiggest_${GIANT_PADDED}.dat" 2>/dev/null
+
+# ── Newest file: created last so it appears first in ls -lt
+sleep 1
+touch "$TARGET/freshly_arrived.dat"
 
 # ── Permissions: readable throughout; deepest dir writable so student can touch
 chmod -R a+rX /shared/lab00
