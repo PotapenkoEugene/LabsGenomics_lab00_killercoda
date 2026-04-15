@@ -41,32 +41,34 @@ NODE01_IP=$(ssh -o StrictHostKeyChecking=no node01 'hostname -I' | awk '{print $
 echo "$NODE01_IP labserver" >> /etc/hosts
 
 # ── Part 2: seed navigation data on labserver ─────────────────────────────────
+# Pipe the entire setup script via heredoc — avoids all variable-scoping issues
+# between the local shell and the remote shell.
 
-DEEP_DIR="very_long_directory_name_that_nobody_wants_to_type/keep_going_you_are_almost_there/one_more_level_promise"
+ssh -o StrictHostKeyChecking=no node01 bash << 'ENDSSH'
+set -e
 
-ssh -o StrictHostKeyChecking=no node01 "
-  set -e
+DEEP="/shared/lab00/samples_2024/raw_reads/batch_01_results"
 
-  # Create the nested directory tree
-  mkdir -p /shared/lab00/\$DEEP_DIR
+# ── Three dirs with a common prefix — Tab shows all three options at first level
+mkdir -p "$DEEP"
+mkdir -p /shared/lab00/samples_2025
+mkdir -p /shared/lab00/samples_archive
 
-  # ── Haystack: ~300 files with varied random sizes (up to ~50 KB each)
-  for i in \$(seq -w 1 300); do
-    dd if=/dev/urandom bs=1 count=\$((RANDOM % 51200 + 512)) \
-       of=/shared/lab00/\$DEEP_DIR/file_\${i}.dat 2>/dev/null
-  done
+# Decoy content so the other dirs exist but are clearly not the target
+echo "No data collected yet." > /shared/lab00/samples_2025/README.txt
+echo "Archived. See samples_2024 for current data." > /shared/lab00/samples_archive/README.txt
 
-  # ── Deliberate biggest file: 5 MB — clearly dominates ls -lhS
-  dd if=/dev/urandom bs=1M count=5 \
-     of=/shared/lab00/\$DEEP_DIR/the_giant_file_you_are_looking_for.dat 2>/dev/null
+# ── Haystack: 1000 files with varied sizes (1–50 KB) — impossible to spot by eye
+for i in $(seq -w 1 1000); do
+  size=$(( (RANDOM % 50) + 1 ))
+  dd if=/dev/urandom bs=1024 count=$size of="$DEEP/file_${i}.dat" 2>/dev/null
+done
 
-  # ── Deliberate newest file: touch last so ls -lt puts it first
-  sleep 1
-  touch /shared/lab00/\$DEEP_DIR/freshly_baked_this_morning.log
+# ── Giant file: 5 MB — clearly wins ls -lhS
+dd if=/dev/urandom bs=1M count=5 \
+   of="$DEEP/the_giant_file_you_are_looking_for.dat" 2>/dev/null
 
-  # ── Ugly-named text file for step 1 Tab practice; contains the secret word
-  echo 'banana' > '/shared/lab00/\$DEEP_DIR/the_file_whose_name_is_so_long_you_really_really_want_to_hit_tab_instead.txt'
-
-  # ── World-readable so student can read without sudo
-  chmod -R a+rX /shared/lab00
-"
+# ── World-readable throughout; deepest dir is also writable so student can touch
+chmod -R a+rX /shared/lab00
+chmod a+rwx "$DEEP"
+ENDSSH

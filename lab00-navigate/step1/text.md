@@ -1,6 +1,6 @@
 # Tab Completion — Save Your Fingers
 
-Typing long paths is slow and error-prone. **Tab completion** is Linux's built-in shortcut: press `Tab` after a few letters and the shell fills in the rest.
+Typing long paths by hand is slow and error-prone. **Tab completion** is the shell's built-in shortcut: start typing, press `Tab`, and the shell fills in the rest automatically.
 
 Connect to the server:
 
@@ -12,52 +12,60 @@ ssh student@labserver
 
 ---
 
-## Part A — Navigate with Tab
+## Part A — See what Tab does when there are multiple options
 
-The server has a deeply nested directory. Start typing the path and press `Tab` at each level:
+The shared data directory has several folders that start with the same prefix. Type the beginning and press `Tab`:
 
 ```bash
-cd /shared/lab00/very_
+cd /shared/lab00/sam
 ```
 
-> **Tip:** After `very_`, press `Tab` — the shell should complete the first directory name.
-> Then type a few letters of the next level and press `Tab` again.
-> Keep going until you reach the deepest level.
+Press `Tab` — the shell cannot complete the name yet because there are multiple matches. Press `Tab` **a second time** to see all the options.
 
-If Tab does nothing, you have not typed enough letters yet — add one more and try again.
-If Tab beeps, press `Tab` **twice** to see all matching options.
+You should see something like:
 
-Confirm you arrived with:
+```
+samples_2024/   samples_2025/   samples_archive/
+```
+
+Now you know which folder to go into. Continue typing to pick `samples_2024`:
+
+```bash
+cd /shared/lab00/samples_2024
+```
+
+---
+
+## Part B — Tab through the rest of the path
+
+Inside `samples_2024` there is one subdirectory. Type a few letters and press `Tab` — the shell should complete it with no ambiguity:
+
+```bash
+cd raw_
+```
+
+Press `Tab`. Then go one level deeper:
+
+```bash
+cd batch_
+```
+
+Press `Tab` again.
+
+Confirm you arrived at the right place:
 
 ```bash
 pwd
 ```
 
-You should see a path ending in `.../one_more_level_promise`.
+The path should end in `batch_01_results`.
 
 ---
 
-## Part B — Read a file by Tab-completing its name
-
-There is a file here with a very long name. Start typing and let Tab do the work:
+## Part C — Mark your visit
 
 ```bash
-cat the_
-```
-
-Press `Tab` — the shell should complete the filename.
-
-Read what it says. Remember the word.
-
----
-
-## Part C — Mark that you were here
-
-Go back to your home directory and create a file named after the secret word you just read:
-
-```bash
-cd ~
-touch <the_word_you_read>
+touch iwashere
 ```
 
 Click **Check** to verify.

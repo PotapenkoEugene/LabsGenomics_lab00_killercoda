@@ -1,4 +1,4 @@
 #!/bin/bash
-# Pass if the student created a file named 'banana' in their home directory on labserver.
+# Pass if the student touched iwashere in the deepest directory on labserver.
 ssh -o StrictHostKeyChecking=no -i /root/.ssh/verify_key student@labserver \
-  'test -f /home/student/banana'
+  'test -f /shared/lab00/samples_2024/raw_reads/batch_01_results/iwashere'

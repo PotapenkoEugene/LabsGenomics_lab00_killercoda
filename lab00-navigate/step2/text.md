@@ -1,6 +1,6 @@
-# ls Flags — Find a Needle in Hundreds of Files
+# ls Flags — Find a Needle in a Thousand Files
 
-`ls` alone just prints names. With the right flags it answers real questions: *which file is biggest? which was touched most recently?*
+`ls` alone just prints names in alphabetical order. With the right flags it answers a real question: *which file is the biggest?*
 
 Connect to the server:
 
@@ -12,25 +12,31 @@ ssh student@labserver
 
 ---
 
-## Part A — Navigate back to the deep directory
+## Part A — Navigate back to the data directory
 
-You know the path — use Tab to get there quickly:
+You already know the path. Use Tab to get there:
 
 ```bash
-cd /shared/lab00/very_
+cd /shared/lab00/samples_2024/raw_
 ```
 
-Press `Tab` through each level.
+Press `Tab`, then:
+
+```bash
+cd batch_
+```
+
+Press `Tab`. Confirm with `pwd`.
 
 ---
 
-## Part B — Plain `ls` is hopeless here
+## Part B — Plain `ls` is useless here
 
 ```bash
 ls
 ```
 
-There are hundreds of files. You cannot spot the biggest one by eye.
+There are a thousand files. You cannot spot the biggest one by scrolling.
 
 ---
 
@@ -46,37 +52,26 @@ There are hundreds of files. You cannot spot the biggest one by eye.
 ls -lhS | head
 ```
 
-> **Tip:** `| head` shows only the top 10 lines — the biggest files come first.
+> **Tip:** `| head` shows only the first 10 lines of output — the biggest files appear at the top.
 
-The **first file** in the output is the largest. Note its name.
-
----
-
-## Part D — Sort by time: `ls -lt`
-
-```bash
-ls -lt | head
-```
-
-The **first file** is the most recently modified. Note its name.
+The **first file** listed is the largest. Note its name.
 
 ---
 
-## Part E — Copy both files to your home directory
+## Part D — Copy it to your home directory
 
-`cp SOURCE DEST` copies a file. `~/` is your home directory.
+`cp SOURCE DEST` copies a file. `~/` means your home directory.
 
 ```bash
 cp the_giant_file_you_are_looking_for.dat ~/
-cp freshly_baked_this_morning.log ~/
 ```
 
-> **Tip:** Tab-complete the filenames — you already know how.
+> **Tip:** Tab-complete the filename — you already know how.
 
-Verify the copies arrived:
+Verify the copy arrived:
 
 ```bash
-ls -lh ~/ | head
+ls -lh ~/
 ```
 
 Click **Check** to verify.
