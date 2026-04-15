@@ -89,13 +89,4 @@ The line starting with `>` is the FASTA sequence header — chromosome name, acc
 
 ---
 
-## Part G — Task
-
-Extract just that header line and save it to a file:
-
-```bash
-zcat GCF_000005845.2_ASM584v2_genomic.fna.gz | head -1 > fasta_header.txt
-cat fasta_header.txt
-```
-
 Click **Check** to verify.
