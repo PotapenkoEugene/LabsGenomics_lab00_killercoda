@@ -28,6 +28,8 @@ scp student@labserver:lab00/ecoli/ecoli_stats.txt ./
 
 (password: `student`)
 
+> **Tip — `./` means the current directory.** The destination `./` tells `scp` to save the file here, keeping the original filename. You can replace it with any local path, e.g. `/tmp/` or `~/downloads/`.
+
 Confirm the file arrived here on `controlplane`:
 
 ```bash
@@ -45,7 +47,7 @@ ls -lh ecoli_stats.txt
 
 ## Part C — Copy a file to the server
 
-`scp` works in both directions. Upload the file you just downloaded back to `labserver`:
+`scp` works in both directions — to upload, just swap the paths: put the local file first and the remote destination second.
 
 ```bash
 scp ecoli_stats.txt student@labserver:lab00/
