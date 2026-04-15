@@ -1,4 +1,4 @@
-# Upload with scp
+# Download from the server with scp
 
 `scp` copies files over SSH. Unlike `wget`, it transfers files **between two machines** — and it always runs on **your local machine**, not on the server.
 
@@ -18,50 +18,27 @@ Your prompt should now show `root@controlplane`.
 
 ---
 
-## Part B — Find the file to upload
+## Part B — Copy a file from the server
 
-A genome file has been left for you on this machine. Look for it:
-
-```bash
-ls /root/lab00_local/
-```
-
-You should see `genome.fasta`.
-
----
-
-## Part C — Copy it to the server
-
-Use `scp` to push the file to your `lab00` directory on `labserver`:
+You downloaded `ecoli_genome.fna.gz` to the server in the previous step. Fetch it to your local machine with `scp`:
 
 ```bash
-scp /root/lab00_local/genome.fasta student@labserver:lab00/
+scp student@labserver:lab00/ecoli/ecoli_genome.fna.gz ./
 ```
 
 (password: `student`)
 
-> **Tip — avoid `~/` on the destination side.**
-> You might expect `student@labserver:~/lab00/` to work, but `~/` expansion on
-> the remote side is not guaranteed in all `scp` versions and configurations.
-> Use a **relative path** (`lab00/` — interpreted from the remote user's home)
-> or an **absolute path** (`/home/student/lab00/`) instead.
-
----
-
-## Part D — Confirm the upload
-
-SSH back in and check that the file arrived:
+Confirm the file arrived here on `controlplane`:
 
 ```bash
-ssh student@labserver
+ls -lh ecoli_genome.fna.gz
 ```
 
-(password: `student`)
-
-```bash
-ls -lh ~/lab00/
-```
-
-You should see `genome.fasta` alongside the `ecoli/` directory from the previous step.
+> **Tip — avoid `~/` in remote paths.**
+> You might expect `student@labserver:~/lab00/ecoli/ecoli_genome.fna.gz` to work,
+> but `~/` expansion on the remote side is not guaranteed in all `scp` versions
+> and configurations. Use a **relative path** (`lab00/ecoli/file` — interpreted
+> from the remote user's home) or an **absolute path**
+> (`/home/student/lab00/ecoli/file`) instead.
 
 Click **Check** to verify.

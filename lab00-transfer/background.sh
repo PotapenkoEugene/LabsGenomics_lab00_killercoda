@@ -38,7 +38,3 @@ sleep 2
 NODE01_IP=$(ssh -o StrictHostKeyChecking=no node01 'hostname -I' | awk '{print $1}')
 echo "$NODE01_IP labserver" >> /etc/hosts
 
-# --- step 2 scp source file ---
-# Place the file outside $HOME so students must use the absolute path
-mkdir -p /root/lab00_local
-cp "$(dirname "$0")/assets/genome.fasta" /root/lab00_local/genome.fasta

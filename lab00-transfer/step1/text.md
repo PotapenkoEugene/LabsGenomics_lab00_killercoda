@@ -37,22 +37,22 @@ ls -lh
 
 ---
 
-## Part C — Download somewhere else, then move it
+## Part C — Control the output filename with `-O`
 
-Not every download lands where you want it. Go back to your home directory and download the genome FASTA from the same NCBI entry:
+NCBI filenames are long and machine-generated. Download the genome FASTA from the same entry:
 
 ```bash
-cd ~
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
 ```
 
-The file landed in `~`. Move it into the `ecoli` directory:
+The saved filename is identical to the URL basename — not great. Delete it and re-download with a clean name using `-O`:
 
 ```bash
-mv GCF_000005845.2_ASM584v2_genomic.fna.gz ~/lab00/ecoli/
+rm GCF_000005845.2_ASM584v2_genomic.fna.gz
+wget -O ecoli_genome.fna.gz https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz
 ```
 
-Confirm both files are together:
+Confirm both files are in place:
 
 ```bash
 ls -lh ~/lab00/ecoli/
