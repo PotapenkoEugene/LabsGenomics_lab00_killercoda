@@ -15,24 +15,39 @@ export MAMBA_ROOT_PREFIX=/opt/micromamba
 micromamba create -y -n bio -c bioconda -c conda-forge \
   fastp fastqc 2>&1 | tail -3
 
-# ── Activate in student shell ────────────────────────────────────────────────
-echo 'export MAMBA_ROOT_PREFIX=/opt/micromamba'      >> /root/.bashrc
-echo 'eval "$(micromamba shell hook -s bash)"'        >> /root/.bashrc
-echo 'micromamba activate bio'                        >> /root/.bashrc
+# ── Create student user ──────────────────────────────────────────────────────
+id student 2>/dev/null || useradd -m -s /bin/bash student
+echo "student:student" | chpasswd
 
-# ── Stage raw inputs at instructor path ─────────────────────────────────────
-mkdir -p /home/evgenip/labs/lab06
-mkdir -p /root/labs/lab06
+# ── Student shell setup ──────────────────────────────────────────────────────
+cat >> /home/student/.bashrc << 'EOF'
+export MAMBA_ROOT_PREFIX=/opt/micromamba
+eval "$(micromamba shell hook -s bash)"
+micromamba activate bio
+EOF
 
-wget -q "$RAW/sample1.fastq.gz" -O /home/evgenip/labs/lab06/sample1.fastq.gz
-wget -q "$RAW/sample2.fastq.gz" -O /home/evgenip/labs/lab06/sample2.fastq.gz
+cat > /home/student/.bash_profile << 'EOF'
+[ -f ~/.bashrc ] && source ~/.bashrc
+cd ~/labs/lab06 2>/dev/null || true
+EOF
+
+chown student:student /home/student/.bashrc /home/student/.bash_profile
+
+# ── Stage raw inputs in workspace ───────────────────────────────────────────
+mkdir -p /home/student/labs/lab06
+wget -q "$RAW/sample1.fastq.gz" -O /home/student/labs/lab06/sample1.fastq.gz
+wget -q "$RAW/sample2.fastq.gz" -O /home/student/labs/lab06/sample2.fastq.gz
+chown -R student:student /home/student/labs
 
 # ── Report viewer helper ─────────────────────────────────────────────────────
-cat > /root/view-reports.sh << 'EOF'
+cat > /home/student/view-reports.sh << 'EOF'
 #!/bin/bash
 pkill -f "http.server 8080" 2>/dev/null || true
 cd ~/labs/lab06 || exit 1
 python3 -m http.server 8080 >/dev/null 2>&1 &
 echo "Reports served. Open the link shown in the step instructions (port 8080)."
 EOF
-chmod +x /root/view-reports.sh
+chmod +x /home/student/view-reports.sh
+chown student:student /home/student/view-reports.sh
+
+touch /tmp/setup_done
