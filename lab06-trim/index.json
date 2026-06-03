@@ -1,0 +1,10 @@
+{
+  "title": "Lab 06 — Trim & QC",
+  "description": "Trim two SARS-CoV-2 samples with fastp and inspect quality with FastQC.",
+  "details": {
+    "intro":  { "text": "intro.md", "background": "background.sh" },
+    "steps":  [ { "title": "Clean both samples", "text": "step1/text.md", "verify": "step1/verify.sh" } ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "ubuntu" }
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Lab 06 — Align Reads",
+  "description": "Index the SARS-CoV-2 reference genome and align both trimmed samples with bwa-mem2.",
+  "details": {
+    "intro":  { "text": "intro.md", "background": "background.sh" },
+    "steps":  [ { "title": "Align both samples", "text": "step1/text.md", "verify": "step1/verify.sh" } ],
+    "finish": { "text": "finish.md" }
+  },
+  "backend": { "imageid": "ubuntu" }
+}
