@@ -1,0 +1,24 @@
+{
+  "title": "Lab 08 Homework — XDR Typhi: Assemble & Annotate",
+  "description": "Alternate environment for the Lab 08 homework (server access issue) — assemble, annotate, and screen an XDR Salmonella Typhi isolate for resistance genes.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Reads → assembly → annotation → resistance",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh",
+        "foreground": "step1/foreground.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}

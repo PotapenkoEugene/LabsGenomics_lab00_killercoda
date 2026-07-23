@@ -1,0 +1,59 @@
+#!/bin/bash
+set -e
+
+RAW=https://raw.githubusercontent.com/PotapenkoEugene/LabsGenomics_lab00_killercoda/main/lab05-data
+
+# ── Install micromamba ───────────────────────────────────────────────────────
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest \
+  | tar -xj bin/micromamba
+mv bin/micromamba /usr/local/bin/micromamba && rmdir bin
+chmod +x /usr/local/bin/micromamba
+
+export MAMBA_ROOT_PREFIX=/opt/micromamba
+
+# ── Create bio environment ───────────────────────────────────────────────────
+micromamba create -y -n bio -c bioconda -c conda-forge \
+  seqkit fastqc 2>&1 | tail -3
+
+# ── Create student user ──────────────────────────────────────────────────────
+id student 2>/dev/null || useradd -m -s /bin/bash student
+echo "student:student" | chpasswd
+
+# ── Student shell setup ──────────────────────────────────────────────────────
+cat >> /home/student/.bashrc << 'EOF'
+export MAMBA_ROOT_PREFIX=/opt/micromamba
+eval "$(micromamba shell hook -s bash)"
+micromamba activate bio
+EOF
+
+cat > /home/student/.bash_profile << 'EOF'
+[ -f ~/.bashrc ] && source ~/.bashrc
+cd ~/labs/lab05/HW 2>/dev/null || true
+EOF
+
+chown student:student /home/student/.bashrc /home/student/.bash_profile
+
+# ── Stage source files at the HW's literal `cp` path ────────────────────────
+# HW Task A: cp /home/evgenip/labs/lab05/HW/sample* ~/labs/lab05/HW/
+mkdir -p /home/evgenip/labs/lab05/HW
+for f in sample1 sample2 sample3 sample4; do
+  wget -q "$RAW/${f}.fastq.gz" -O "/home/evgenip/labs/lab05/HW/${f}.fastq.gz"
+done
+chmod -R a+rX /home/evgenip
+
+# ── Student workspace (empty — student cp's the files in, per HW Task A) ────
+mkdir -p /home/student/labs/lab05/HW
+chown -R student:student /home/student/labs
+
+# ── Download/view helper (serves the HW dir over the Killercoda traffic port) ─
+cat > /home/student/view-reports.sh << 'EOF'
+#!/bin/bash
+pkill -f "http.server 8080" 2>/dev/null || true
+cd ~/labs/lab05/HW || exit 1
+python3 -m http.server 8080 >/dev/null 2>&1 &
+echo "Files served. Open the link shown in the step instructions (port 8080)."
+EOF
+chmod +x /home/student/view-reports.sh
+chown student:student /home/student/view-reports.sh
+
+touch /tmp/setup_done

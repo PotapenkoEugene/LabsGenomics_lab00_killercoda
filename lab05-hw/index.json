@@ -1,0 +1,24 @@
+{
+  "title": "Lab 05 Homework — SARS-CoV-2 FASTQ QC",
+  "description": "Alternate environment for the Lab 05 homework (server access issue) — seqkit stats and FastQC on 4 samples.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "FASTQ QC — Tasks A–E",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh",
+        "foreground": "step1/foreground.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu"
+  }
+}
