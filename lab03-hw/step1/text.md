@@ -16,4 +16,4 @@ Run this **once**:
 
 Then open: [click here]({{TRAFFIC_HOST1_8080}}) and click any file in the list — e.g. `answers.txt` — to download it.
 
-**Submit `answers.txt` to Moodle.**
+**Submit `answers.txt` to Moodle.** `h5n1.fna` does **not** need to be uploaded.
