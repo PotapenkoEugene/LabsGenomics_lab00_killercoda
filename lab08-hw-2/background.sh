@@ -69,9 +69,16 @@ chown student:student /home/student/.bashrc /home/student/.bash_profile
 #    megahit runs is the arbitrary k141_XXX contig numbering (megahit does
 #    not guarantee stable contig IDs across runs) — harmless, but it means
 #    a gene's contig number here won't match the answer key's literal ID.
-#    BUSCO lineage staged so `-l bacteria_odb10 --offline` needs no live
-#    download (explicit -l + --offline reads the lineage dir directly, no
-#    file_versions.tsv manifest required). ──────────────────────────────────
+#    BUSCO lineage staged at busco_downloads/lineages/bacteria_odb10, which
+#    is exactly BUSCO's default download_path relative to the CWD — students
+#    cd into this directory first, so the HW's plain
+#    `busco -i ... -m genome -l bacteria_odb10 -o busco_out --cpu N` reuses
+#    it automatically, no extra flags needed. Verified locally: with the
+#    lineage already there, BUSCO makes one small metadata-check network
+#    call but does NOT redownload the dataset — identical result and speed
+#    with or without --offline/--download_path, so no need to teach either
+#    flag. (The instructor self-test below still uses them explicitly since
+#    it runs from a different scratch directory.) ─────────────────────────
 DATA_RAW=https://raw.githubusercontent.com/PotapenkoEugene/LabsGenomics_lab00_killercoda/main/lab08-data
 mkdir -p /home/student/labs/lab08/HW/assembly
 wget -q "$DATA_RAW/final.contigs.fa.gz" -O /tmp/final.contigs.fa.gz

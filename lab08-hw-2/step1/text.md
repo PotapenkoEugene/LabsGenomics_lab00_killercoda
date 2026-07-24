@@ -17,10 +17,6 @@ Run every command below from this directory so your output (`quast_out/`, `busco
 `conda create -n abricate ...` step** — just run the tool commands directly (e.g. `quast ...`,
 `busco ...`, `abricate --db card ...`).
 
-> **BUSCO:** the `bacteria_odb10` lineage is already downloaded at
-> `~/labs/lab08/HW/busco_downloads` — add `--offline --download_path ~/labs/lab08/HW/busco_downloads`
-> to your `busco` command instead of letting it fetch the lineage live.
-
 `busco` and `prokka` each take a few minutes, same as the HW's own timing notes.
 
 Once you're through, record your Part 2 answers as `~/labs/lab08/HW/answers_2.txt`.
