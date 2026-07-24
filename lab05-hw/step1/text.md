@@ -2,11 +2,9 @@
 
 Server's down — this VM replaces it. **No SSH needed**, you're already at the terminal.
 
-The 4 source samples are staged at `/home/evgenip/labs/lab05/HW/` — the HW's `cp` command works as written.
-
 Open the **Lab 05 homework PDF (Moodle)** and work through Tasks A–E here in the terminal, exactly as written.
 
-> **Task D (`scp` to your laptop):** skip it. Instead, when you reach FastQC reports, jump to "When you're done" below — the link there both shows and downloads the `.html` files.
+> **Task D (`scp` to your laptop):** skip it. Instead, when you reach FastQC reports, jump to "When you're done" below — the link there opens `.html` files in the browser.
 
 ---
 
