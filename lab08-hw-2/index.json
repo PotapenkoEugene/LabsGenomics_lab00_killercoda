@@ -1,6 +1,6 @@
 {
-  "title": "Lab 08 Homework — XDR Typhi: Assemble & Annotate",
-  "description": "Alternate environment for the Lab 08 homework (server access issue) — assemble, annotate, and screen an XDR Salmonella Typhi isolate for resistance genes.",
+  "title": "Lab 08 Homework (Part 2) — Annotate & Screen",
+  "description": "Alternate environment for the Lab 08 homework (server access issue) — annotate a reference XDR Salmonella Typhi assembly and screen it for resistance genes.",
   "details": {
     "intro": {
       "text": "intro.md",
@@ -8,7 +8,7 @@
     },
     "steps": [
       {
-        "title": "Reads → assembly → annotation → resistance",
+        "title": "Assembly → QUAST/BUSCO → prokka → abricate",
         "text": "step1/text.md",
         "verify": "step1/verify.sh",
         "foreground": "step1/foreground.sh"
