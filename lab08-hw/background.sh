@@ -28,19 +28,33 @@ if [ ! -d /opt/micromamba/envs/tools ]; then
   echo "== tools env: FAILED TO CREATE — see log above ==" >&2
 fi
 
-# ── Make every tool available system-wide — no `conda activate`, ever ──────
-export PATH="/opt/micromamba/envs/tools/bin:$PATH"
-cat > /etc/profile.d/lab08-tools.sh << 'EOF'
-export PATH="/opt/micromamba/envs/tools/bin:$PATH"
-EOF
-chmod 644 /etc/profile.d/lab08-tools.sh
-
-# ── Smoke test / DB index (prokka ships its DBs, just needs indexing) ──────
-prokka --setupdb 2>&1 | tail -5
+# ── Smoke test / DB index — MUST go through `micromamba run`, not a bare
+#    PATH prepend. Confirmed locally: a plain `PATH=.../tools/bin:$PATH`
+#    export breaks prokka ("Can't locate XML/Simple.pm"), abricate ("Can't
+#    locate Path/Tiny.pm"), busco ("No module named 'busco'"), and even
+#    fastqc ("Can't exec java") — these are Perl/Python wrapper scripts that
+#    need PERL5LIB/PYTHONPATH/etc set by the env's own activation hooks, not
+#    just their binary being reachable. Only proper activation works. ──────
+micromamba run -n tools prokka --setupdb 2>&1 | tail -5
 
 # ── Create student user ──────────────────────────────────────────────────────
 id student 2>/dev/null || useradd -m -s /bin/bash student
 echo "student:student" | chpasswd
+
+# ── Student shell setup: auto-activate on login (same pattern as the other
+#    scenarios) — student never types `conda`/`micromamba` anything, the
+#    prompt just already has every tool working. ───────────────────────────
+cat >> /home/student/.bashrc << 'EOF'
+export MAMBA_ROOT_PREFIX=/opt/micromamba
+eval "$(micromamba shell hook -s bash)"
+micromamba activate tools
+EOF
+
+cat > /home/student/.bash_profile << 'EOF'
+[ -f ~/.bashrc ] && source ~/.bashrc
+EOF
+
+chown student:student /home/student/.bashrc /home/student/.bash_profile
 
 # ── Pre-staged BUSCO lineage only (reads are NOT staged — HW downloads them
 #    live from ENA in Part 2A, so that step stays exactly as written). The
@@ -48,7 +62,7 @@ echo "student:student" | chpasswd
 #    as the HW's Pre-Task — this only pre-seeds busco_downloads/ inside it,
 #    so the terminal does NOT start already positioned there. ──────────────
 mkdir -p /home/student/labs/lab08/HW
-( cd /home/student/labs/lab08/HW && busco --download bacteria_odb10 2>&1 | tail -5 )
+( cd /home/student/labs/lab08/HW && micromamba run -n tools busco --download bacteria_odb10 2>&1 | tail -5 )
 chown -R student:student /home/student/labs
 
 # ── Download server: forces downloads instead of inline browser rendering ───
