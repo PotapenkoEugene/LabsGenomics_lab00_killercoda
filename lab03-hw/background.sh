@@ -10,15 +10,8 @@ done
 id student 2>/dev/null || useradd -m -s /bin/bash student
 echo "student:student" | chpasswd
 
-# ── Student shell setup ──────────────────────────────────────────────────────
-cat > /home/student/.bash_profile << 'EOF'
-cd ~/labs/lab03/HW 2>/dev/null || true
-EOF
-chown student:student /home/student/.bash_profile
-
-# ── Workspace ────────────────────────────────────────────────────────────────
-mkdir -p /home/student/labs/lab03/HW
-chown -R student:student /home/student/labs
+# ── No pre-staged workspace: student starts in ~ and builds ~/labs/lab03/HW
+#    themselves via `mkdir -p` + `cd`, exactly as the HW's Pre-Task says. ───────
 
 # ── Download/view helper (serves the HW dir over the Killercoda traffic port) ─
 cat > /home/student/view-reports.sh << 'EOF'

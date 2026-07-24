@@ -2,8 +2,6 @@
 
 Server's down — this VM replaces it. **No SSH needed**, you're already at the terminal.
 
-Create your homework directory and work inside it, exactly as the HW says:
-
 ```bash
 mkdir -p ~/labs/lab03/HW
 cd ~/labs/lab03/HW
