@@ -53,13 +53,30 @@ mkdir -p /home/student/labs/lab08/HW
 ( cd /home/student/labs/lab08/HW && micromamba run -n busco busco --download bacteria_odb10 2>&1 | tail -5 )
 chown -R student:student /home/student/labs
 
+# ── Download server: forces downloads instead of inline browser rendering ───
+cat > /home/student/.dl_server.py << 'EOF'
+#!/usr/bin/env python3
+import http.server, os, sys
+
+class DownloadHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        path = self.path.split('?')[0]
+        if not path.endswith('.html') and not path.endswith('/'):
+            self.send_header('Content-Disposition', f'attachment; filename="{os.path.basename(path)}"')
+        super().end_headers()
+
+port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+http.server.test(HandlerClass=DownloadHandler, port=port)
+EOF
+chown student:student /home/student/.dl_server.py
+
 # ── Download/view helper (serves the HW dir over the Killercoda traffic port) ─
 cat > /home/student/view-reports.sh << 'EOF'
 #!/bin/bash
-pkill -f "http.server 8080" 2>/dev/null || true
+pkill -f "dl_server.py" 2>/dev/null || true
 cd ~/labs/lab08/HW || exit 1
-python3 -m http.server 8080 >/dev/null 2>&1 &
-echo "Files served. Open the link shown in the step instructions (port 8080)."
+python3 ~/.dl_server.py 8080 >/dev/null 2>&1 &
+echo "Files served. Open the link shown in the step instructions (port 8080) — files download; .html reports open in the browser."
 EOF
 chmod +x /home/student/view-reports.sh
 chown student:student /home/student/view-reports.sh
