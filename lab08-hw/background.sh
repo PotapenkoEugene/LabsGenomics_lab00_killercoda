@@ -11,17 +11,21 @@ chmod +x /usr/local/bin/micromamba
 export MAMBA_ROOT_PREFIX=/opt/micromamba
 mkdir -p /opt/micromamba/envs
 
-# ── One combined env for all 8 tools instead of 4 separate ones + a live
-#    student-side install. Measured locally: 5.97 GB unique bytes for all 8
-#    together (one shared python/perl runtime, hardlinked deps) vs ~9.4 GB
-#    for 4 separate envs + abricate created live — plus it removes the two
-#    failure points hit on a real run: quast/busco/prokka silently missing
-#    (disk exhaustion mid-sequence, masked by `| tail`) and the student's own
-#    `conda create -n abricate -c bioconda abricate` failing to solve
-#    (libgcc-ng/unzip unresolvable — micromamba has no implicit conda-forge
-#    fallback the way real conda does). ──────────────────────────────────────
-micromamba create -y -n tools -c conda-forge -c bioconda --strict-channel-priority \
-  fastqc seqkit fastp megahit quast 'busco>=5.4' 'prokka=1.14.6' abricate 2>&1 | tail -10
+# ── One combined env for all 8 tools, built from a pre-resolved @EXPLICIT
+#    lock file — NOT a live solve. A real run's background log
+#    (/var/log/killercoda/background0_stdout.log) showed the live solve
+#    dying silently mid-"Resolving Environment" (no Transaction finished,
+#    no error — a bare `df -h` on that same VM showed 13GB free, ruling out
+#    disk; /dev/shm at ~950MB implies only ~1.9GB RAM, so a combined 8-
+#    package cross-channel solve under --strict-channel-priority almost
+#    certainly got OOM-killed by the kernel). An @EXPLICIT lock (generated
+#    once offline via `micromamba list -n tools --explicit --md5`, committed
+#    as tools.lock) skips the solver AND the ~2-minute repodata parse
+#    entirely — just downloads the exact listed builds and links them.
+#    Verified locally: 36s, no solver phase, all 8 tools still work. ───────
+RAW=https://raw.githubusercontent.com/PotapenkoEugene/LabsGenomics_lab00_killercoda/main/lab08-hw
+wget -q "$RAW/tools.lock" -O /tmp/tools.lock
+micromamba create -y -n tools -f /tmp/tools.lock 2>&1 | tail -10
 micromamba clean -a -y
 
 if [ ! -d /opt/micromamba/envs/tools ]; then
