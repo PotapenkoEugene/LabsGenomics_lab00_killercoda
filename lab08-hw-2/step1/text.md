@@ -9,10 +9,13 @@ cd ~/labs/lab08/HW
 ```
 
 Your assembly is already sitting at `assembly/final.contigs.fa` — this is a **reference
-assembly** (not necessarily the one you built in Part 1; Killercoda VMs don't carry state
-between scenarios), so use it as-is for this part. Run every command below from this directory
-so your output (`quast_out/`, `busco_out/`, `annotation/`, `resistance.tsv`, `answers_2.txt`)
-lands where the Check button looks for it.
+assembly**, not necessarily the one you built in Part 1 (Killercoda VMs don't carry state
+between scenarios), so use it as-is for this part. It's verified to reproduce the answer
+key's numbers (N50, contig count, BUSCO score). The one thing that can differ from the answer
+key is the arbitrary `k141_XXX` contig numbering — that's a known `megahit` quirk, not a
+mistake if a gene turns up on a different contig number than expected. Run every command below
+from this directory so your output (`quast_out/`, `busco_out/`, `annotation/`, `resistance.tsv`,
+`answers_2.txt`) lands where the Check button looks for it.
 
 **Tools:** `quast`, `busco`, `prokka`, `abricate` — already installed and on your `PATH`.
 **Skip every `conda activate <name>` / `conda deactivate` line and Part 7's

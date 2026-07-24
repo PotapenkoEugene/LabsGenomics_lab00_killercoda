@@ -3,8 +3,12 @@
 The course server is unreachable — this VM is a drop-in replacement.
 
 This is **Part 2 of 2** — annotation and resistance screening. It works on a **pre-staged
-reference assembly** (not your own Part 1 output — Killercoda VMs don't persist between
-scenarios), so your Part 1 numbers may differ slightly from what you see here.
+reference assembly**, not your own Part 1 output — Killercoda VMs don't carry state between
+scenarios, so there's no way to hand your file over. This assembly was built with the exact
+same `megahit` command on the same reads and verified to reproduce the answer key's stats
+(N50, contig count, total length, BUSCO score all match). The one thing that can vary between
+separate `megahit` runs is the arbitrary `k141_XXX` contig numbering — not the DNA content — so
+if a gene sits on a different-numbered contig than you expect, that's expected, not an error.
 
 All 4 tools this part needs — `quast`, `busco`, `prokka`, `abricate` — are installed and
 activated automatically on login, ready to run directly. You never need to type

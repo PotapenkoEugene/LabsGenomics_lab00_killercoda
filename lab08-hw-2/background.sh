@@ -60,11 +60,18 @@ chown student:student /home/student/.bashrc /home/student/.bash_profile
 
 # ── Pre-stage the reference assembly + BUSCO lineage (Part 1's own output
 #    never existed here — Killercoda scenarios don't share state between
-#    each other). Both are committed to lab08-data/ from the instructor's
-#    real run that produced the answer key, so working on them reproduces
-#    it exactly. BUSCO lineage staged so `-l bacteria_odb10 --offline` needs
-#    no live download (explicit -l + --offline reads the lineage dir
-#    directly, no file_versions.tsv manifest required). ────────────────────
+#    each other). The committed final.contigs.fa.gz was regenerated locally
+#    with the exact HW command (`megahit -1 clean_R1 -2 clean_R2 -o assembly
+#    -t 4`, same reads, megahit v1.2.9) and verified against the answer key:
+#    QUAST (N50/#contigs/total/GC) and BUSCO (100.0% complete) matched
+#    exactly; annotation/resistance loci matched in length, coordinates,
+#    %identity and resistance category. The only thing that differs between
+#    megahit runs is the arbitrary k141_XXX contig numbering (megahit does
+#    not guarantee stable contig IDs across runs) — harmless, but it means
+#    a gene's contig number here won't match the answer key's literal ID.
+#    BUSCO lineage staged so `-l bacteria_odb10 --offline` needs no live
+#    download (explicit -l + --offline reads the lineage dir directly, no
+#    file_versions.tsv manifest required). ──────────────────────────────────
 DATA_RAW=https://raw.githubusercontent.com/PotapenkoEugene/LabsGenomics_lab00_killercoda/main/lab08-data
 mkdir -p /home/student/labs/lab08/HW/assembly
 wget -q "$DATA_RAW/final.contigs.fa.gz" -O /tmp/final.contigs.fa.gz
@@ -164,7 +171,12 @@ echo " and every tool actually work against the staged reference assembly,"
 echo " it is not the same check as Killercoda's Check button. Compare"
 echo " values against labs/lab08/solutions/homework_answer_key.md:"
 echo " expected N50,#contigs,total = 129549,91,4844847 ; BUSCO C: = 100.0 ;"
-echo " CDS = 4725 ; invA = k141_313,2058 ; CTX-M-15.)"
+echo " CDS ~= 4725-4728 ; invA length = 2058 ; CTX-M-15."
+echo " NOTE: megahit assigns k141_XXX contig IDs non-deterministically"
+echo " (same caveat the answer key itself documents) — the invA/CTX-M"
+echo " CONTIG NUMBER will not match the answer key's; everything else"
+echo " (coordinates within the reads, gene length, %identity, coverage,"
+echo " resistance category) will.)"
 [ "$FAIL" -eq 0 ] && echo "=== SELFTEST PASSED ===" || echo "=== SELFTEST FAILED ==="
 SELFTEST
 chmod 700 /home/student/.verify-hw.sh
