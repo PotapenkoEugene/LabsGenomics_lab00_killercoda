@@ -10,20 +10,28 @@ chmod +x /usr/local/bin/micromamba
 export MAMBA_ROOT_PREFIX=/opt/micromamba
 mkdir -p /opt/micromamba/envs
 
-# ── Base env: tools the HW calls with no `conda activate` ──────────────────
-micromamba create -y -n bio -c conda-forge -c bioconda --strict-channel-priority \
-  fastqc seqkit fastp megahit 2>&1 | tail -3
+# ── Env creation: clean the package cache after EACH env (not just at the
+#    end) to keep peak disk usage down — this VM's disk is tight and a failed
+#    solve here is otherwise masked by `| tail`. Verify each env actually
+#    landed on disk so a failure is at least visible in the boot log instead
+#    of silently vanishing (this is exactly what happened before: bio was
+#    created, quast/busco/prokka silently were not). ─────────────────────────
+create_env() {
+  local name="$1"; shift
+  micromamba create -y -n "$name" -c conda-forge -c bioconda --strict-channel-priority "$@" 2>&1 | tail -5
+  micromamba clean -a -y >/dev/null 2>&1
+  if [ -d "/opt/micromamba/envs/$name" ]; then
+    echo "== env $name: OK =="
+  else
+    echo "== env $name: FAILED TO CREATE — see log above ==" >&2
+  fi
+}
 
-# ── Named envs — HW literally does `conda activate quast|busco|prokka` ─────
-micromamba create -y -n quast -c conda-forge -c bioconda --strict-channel-priority \
-  quast 2>&1 | tail -3
-micromamba create -y -n busco -c conda-forge -c bioconda --strict-channel-priority \
-  'busco>=5.4' 2>&1 | tail -3
-micromamba create -y -n prokka -c conda-forge -c bioconda --strict-channel-priority \
-  'prokka=1.14.6' 2>&1 | tail -3
+create_env bio fastqc seqkit fastp megahit
+create_env quast quast
+create_env busco 'busco>=5.4'
+create_env prokka 'prokka=1.14.6'
 # abricate is NOT created here — HW Part 7 has the student create it live.
-
-micromamba clean -a -y
 
 # ── Smoke test / DB index (prokka ships its DBs, just needs indexing) ──────
 micromamba run -n prokka prokka --setupdb 2>&1 | tail -5
@@ -42,13 +50,27 @@ EOF
 
 cat > /home/student/.bash_profile << 'EOF'
 [ -f ~/.bashrc ] && source ~/.bashrc
-cd ~/labs/lab08/HW 2>/dev/null || true
 EOF
 
 chown student:student /home/student/.bashrc /home/student/.bash_profile
 
-# ── Workspace + pre-staged BUSCO lineage (reads are NOT staged — HW downloads
-#    them live from ENA in Part 2A, so we leave that step exactly as written) ─
+# ── Default channels for the student's own live `conda create` (HW Part 7:
+#    conda create -n abricate -c bioconda abricate). Without conda-forge as
+#    an implicit fallback channel, abricate's libgcc-ng/unzip deps don't
+#    resolve — this mirrors how the real teaching server's condarc is set up,
+#    which is why the HW's literal single-channel command works there. ─────
+cat > /home/student/.condarc << 'EOF'
+channels:
+  - conda-forge
+  - bioconda
+EOF
+chown student:student /home/student/.condarc
+
+# ── Pre-staged BUSCO lineage only (reads are NOT staged — HW downloads them
+#    live from ENA in Part 2A, so that step stays exactly as written). The
+#    student still builds ~/labs/lab08/HW themselves via mkdir -p / cd, same
+#    as the HW's Pre-Task — this only pre-seeds busco_downloads/ inside it,
+#    so the terminal does NOT start already positioned there. ──────────────
 mkdir -p /home/student/labs/lab08/HW
 ( cd /home/student/labs/lab08/HW && micromamba run -n busco busco --download bacteria_odb10 2>&1 | tail -5 )
 chown -R student:student /home/student/labs
