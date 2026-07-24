@@ -2,7 +2,7 @@
 
 Server's down — this VM replaces it. **No SSH needed**, you're already at the terminal. Do Part 1 (ENA, in your browser) first, exactly as the HW says, then come back here.
 
-**Tools:** `fastqc`, `fastp`, `seqkit`, `megahit` are active by default. `quast`, `busco`, `prokka` are separate environments — run `conda activate quast` / `conda activate busco` / `conda activate prokka` exactly as the HW instructs (`conda deactivate` when it says to). Part 7's `conda create -n abricate -c bioconda abricate` also works as written — run it live.
+**Tools:** all of them — `fastqc`, `fastp`, `seqkit`, `megahit`, `quast`, `busco`, `prokka`, `abricate` — are already installed and on your `PATH`. **Skip every `conda activate <name>` / `conda deactivate` line and Part 7's `conda create -n abricate ...` step** — just run the tool commands directly (e.g. `quast ...`, `busco ...`, `abricate --db card ...`).
 
 > **Task B (`scp` to your laptop):** skip it. Use "When you're done" below to view the FastQC reports instead.
 
