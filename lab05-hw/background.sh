@@ -28,7 +28,6 @@ EOF
 
 cat > /home/student/.bash_profile << 'EOF'
 [ -f ~/.bashrc ] && source ~/.bashrc
-cd ~/labs/lab05/HW 2>/dev/null || true
 EOF
 
 chown student:student /home/student/.bashrc /home/student/.bash_profile
@@ -41,9 +40,8 @@ for f in sample1 sample2 sample3 sample4; do
 done
 chmod -R a+rX /home/evgenip
 
-# ── Student workspace (empty — student cp's the files in, per HW Task A) ────
-mkdir -p /home/student/labs/lab05/HW
-chown -R student:student /home/student/labs
+# ── No pre-staged workspace: student starts in ~ and builds ~/labs/lab05/HW
+#    themselves via `mkdir -p` + `cd`, exactly as the HW's Pre-Task says. ───────
 
 # ── Download server: forces downloads instead of inline browser rendering ───
 cat > /home/student/.dl_server.py << 'EOF'

@@ -2,7 +2,7 @@
 
 Server's down — this VM replaces it. **No SSH needed**, you're already at the terminal.
 
-**Workspace:** `~/labs/lab05/HW` (created, and already your working directory). The 4 source samples are staged at `/home/evgenip/labs/lab05/HW/` — the HW's `cp` command works as written.
+The 4 source samples are staged at `/home/evgenip/labs/lab05/HW/` — the HW's `cp` command works as written.
 
 Open the **Lab 05 homework PDF (Moodle)** and work through Tasks A–E here in the terminal, exactly as written.
 
