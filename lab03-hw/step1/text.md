@@ -2,11 +2,6 @@
 
 Server's down — this VM replaces it. **No SSH needed**, you're already at the terminal.
 
-```bash
-mkdir -p ~/labs/lab03/HW
-cd ~/labs/lab03/HW
-```
-
 Open the **Lab 03 homework PDF (Moodle)** and work through Part 1 (NCBI, in your browser) and Tasks A–G here in the terminal, exactly as written.
 
 ---
