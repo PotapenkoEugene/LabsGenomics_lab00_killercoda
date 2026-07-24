@@ -71,4 +71,52 @@ EOF
 chmod +x /home/student/view-reports.sh
 chown student:student /home/student/view-reports.sh
 
+# ── Instructor self-test (hidden dotfile, not mentioned to students) ───────
+# Runs the full HW pipeline in an isolated scratch dir to confirm the
+# environment actually works. Run manually after boot: ~/.verify-hw.sh
+cat > /home/student/.verify-hw.sh << 'SELFTEST'
+#!/bin/bash
+# Instructor self-test — NOT part of the homework, not mentioned to students.
+# Runs the full Lab 05 HW pipeline in an isolated scratch dir to confirm the
+# environment actually works end-to-end. Run manually: ~/.verify-hw.sh
+set -uo pipefail
+D=~/.selftest/lab05
+rm -rf "$D"; mkdir -p "$D"; cd "$D" || exit 1
+
+FAIL=0
+check() { if [ "$1" -eq 0 ]; then echo "  OK  $2"; else echo "FAIL  $2"; FAIL=1; fi; }
+
+echo "SELFTEST" > answers.txt
+
+cp /home/evgenip/labs/lab05/HW/sample* .
+check $? "cp staged samples from /home/evgenip/..."
+
+fastqc sample* >/dev/null 2>&1
+check $? "fastqc"
+
+for i in 1 2 3 4; do
+  SZ=$(ls -lh "sample${i}.fastq.gz" 2>/dev/null | awk '{print $5}')
+  STATS=$(seqkit stats -aT "sample${i}.fastq.gz" 2>/dev/null | awk 'NR==2{print $4","$18}')
+  echo "sample${i},${SZ},${STATS},PASS" >> answers.txt
+done
+
+LINES=$(wc -l < answers.txt)
+[ "$LINES" -ge 5 ]; check $? "answers.txt >= 5 lines (got $LINES)"
+for i in 1 2 3 4; do
+  [ -f "sample${i}.fastq.gz" ]; check $? "sample${i}.fastq.gz exists"
+  [ -f "sample${i}_fastqc.html" ]; check $? "sample${i}_fastqc.html exists"
+done
+
+echo "--- answers.txt ---"
+cat answers.txt
+echo "-------------------"
+echo "(Note: this ran in $D, not ~/labs/lab05/HW — it proves the pipeline"
+echo " works, it is not the same check as Killercoda's Check button. GC%"
+echo " field is auto-filled from seqkit, VERDICT is hardcoded PASS — read"
+echo " the actual FastQC HTML for the real Per-base-quality verdict.)"
+[ "$FAIL" -eq 0 ] && echo "=== SELFTEST PASSED ===" || echo "=== SELFTEST FAILED ==="
+SELFTEST
+chmod 700 /home/student/.verify-hw.sh
+chown student:student /home/student/.verify-hw.sh
+
 touch /tmp/setup_done

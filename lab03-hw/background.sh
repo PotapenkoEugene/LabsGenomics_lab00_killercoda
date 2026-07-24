@@ -41,4 +41,53 @@ EOF
 chmod +x /home/student/view-reports.sh
 chown student:student /home/student/view-reports.sh
 
+# ── Instructor self-test (hidden dotfile, not mentioned to students) ───────
+# Runs the full HW pipeline in an isolated scratch dir to confirm the
+# environment actually works. Run manually after boot: ~/.verify-hw.sh
+cat > /home/student/.verify-hw.sh << 'SELFTEST'
+#!/bin/bash
+# Instructor self-test — NOT part of the homework, not mentioned to students.
+# Runs the full Lab 03 HW pipeline in an isolated scratch dir to confirm the
+# environment actually works end-to-end. Run manually: ~/.verify-hw.sh
+set -uo pipefail
+D=~/.selftest/lab03
+rm -rf "$D"; mkdir -p "$D"; cd "$D" || exit 1
+
+FAIL=0
+check() { if [ "$1" -eq 0 ]; then echo "  OK  $2"; else echo "FAIL  $2"; FAIL=1; fi; }
+
+echo "SELFTEST" > answers.txt
+
+wget -q "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/864/105/GCF_000864105.1_ViralMultiSegProj15617/GCF_000864105.1_ViralMultiSegProj15617_genomic.fna.gz" -O h5n1.fna.gz
+check $? "wget H5N1 genome from NCBI"
+
+file h5n1.fna.gz | grep -q gzip
+check $? "file: gzip detected"
+ls -lh h5n1.fna.gz | awk '{print $5}' >> answers.txt
+
+zcat h5n1.fna.gz | head -1 | sed 's/^>//' | cut -d' ' -f1 >> answers.txt
+zcat h5n1.fna.gz | wc -l >> answers.txt
+zcat h5n1.fna.gz | tail -1 | awk '{print substr($0,length($0),1)}' >> answers.txt
+
+gunzip -k h5n1.fna.gz
+check $? "gunzip"
+ls -lh h5n1.fna | awk '{print $5}' >> answers.txt
+
+printf '>New_Segment_9\nGCGCGC\n' >> h5n1.fna
+
+LINES=$(wc -l < answers.txt)
+[ "$LINES" -ge 5 ]; check $? "answers.txt >= 5 lines (got $LINES)"
+grep -q "New_Segment_9" h5n1.fna
+check $? "h5n1.fna has New_Segment_9"
+
+echo "--- answers.txt ---"
+cat answers.txt
+echo "-------------------"
+echo "(Note: this ran in $D, not ~/labs/lab03/HW — it proves the pipeline"
+echo " works, it is not the same check as Killercoda's Check button.)"
+[ "$FAIL" -eq 0 ] && echo "=== SELFTEST PASSED ===" || echo "=== SELFTEST FAILED ==="
+SELFTEST
+chmod 700 /home/student/.verify-hw.sh
+chown student:student /home/student/.verify-hw.sh
+
 touch /tmp/setup_done
