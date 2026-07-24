@@ -2,7 +2,12 @@
 
 Server's down — this VM replaces it. **No SSH needed**, you're already at the terminal.
 
-**Workspace:** `~/labs/lab03/HW` (created, and already your working directory).
+Create your homework directory and work inside it, exactly as the HW says:
+
+```bash
+mkdir -p ~/labs/lab03/HW
+cd ~/labs/lab03/HW
+```
 
 Open the **Lab 03 homework PDF (Moodle)** and work through Part 1 (NCBI, in your browser) and Tasks A–G here in the terminal, exactly as written.
 
